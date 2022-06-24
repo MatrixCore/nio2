@@ -10,5 +10,9 @@
 	<true/>
 	<key>com.apple.security.personal-information.addressbook</key>
 	<true/>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)dev.kloenk.Nio</string>
+	</array>
 </dict>
 </plist>

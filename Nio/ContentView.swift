@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var showLogin = true
+    
     var body: some View {
         VStack {
-            LoginView()
+            LoginView(isPresent: $showLogin)
                 .padding()
         }
     }

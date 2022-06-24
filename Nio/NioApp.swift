@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import NioKit
 
 @main
 struct NioApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(NioAccountManager.preview)
         }
     }
 }

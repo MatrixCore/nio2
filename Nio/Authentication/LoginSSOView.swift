@@ -76,10 +76,15 @@ struct LoginSSOGenericView: View {
 
 struct LoginSSOListView: View {
     var identityProviders: [MatrixLoginFlow.IdentityProvider]
+    var doSSO: (MatrixLoginFlow.IdentityProvider) -> Void
     
     var body: some View {
         List(identityProviders) { provider in
-            LoginSSOView(provider: provider)
+            Button() {
+                doSSO(provider)
+            } label: {
+                LoginSSOView(provider: provider)
+            }
         }
     }
 }
@@ -94,6 +99,6 @@ struct LoginSSOView_Previews: PreviewProvider {
             .init(brand: .google, id: "google", name: "google"),
             .init(brand: .twitter, id: "twitter", name: "twitter")
             //.init(icon: MatrixContentURL(string: "mxc://matrix.org/MCVOEmFgVieKFshPxmnejWOq"), id: "gitlab", name: "gitlab")
-        ])
+        ], doSSO: { _ in })
     }
 }
