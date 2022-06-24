@@ -35,11 +35,6 @@ struct LoginView: View {
     
     var body: some View {
         VStack {
-            if let error {
-                Text(error.localizedDescription)
-                    .foregroundColor(.red)
-            }
-            
             TextField(useUsername ? "Username" : "Homeserver", text: $username)
                 .textContentType(useUsername ? .username : nil)
                 .textFieldStyle(.roundedBorder)
@@ -62,8 +57,6 @@ struct LoginView: View {
             }
             
             HStack {
-                
-                // TODO: SSO cancel button or space
                 if singinViewModel.isAuthRunning {
                     Button("Cancel SSO", role: .destructive) {
                         singinViewModel.cancel()
@@ -108,6 +101,16 @@ struct LoginView: View {
             }
         } message: { username in
             Text("Save password for \(username) to keychain. This is protected by biometric protection. Look in the FAQ for more informations.")
+        }
+        .alert("Error", isPresented: .constant(error != nil), presenting: error) { error in
+            Button() {
+                self.error = nil
+            } label: {
+                Text("Ok")
+            }
+        } message: { error in
+            Text(error.localizedDescription)
+                .foregroundColor(.red)
         }
     }
     
@@ -173,6 +176,9 @@ struct LoginView: View {
     
     func discoverServer() {
         self.error = nil
+        guard !username.isEmpty else {
+            return
+        }
         Task {
             do {
                 try await self.discoverServerThrowing()
